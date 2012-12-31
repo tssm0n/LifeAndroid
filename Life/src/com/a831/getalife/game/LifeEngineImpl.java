@@ -1,16 +1,18 @@
 package com.a831.getalife.game;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 public class LifeEngineImpl implements LifeEngine {
 	
-	private List<Coordinate> board;
+	private Set<Coordinate> board;
 
 	public LifeEngineImpl() {
-		board = new LinkedList<Coordinate>();
+		board = new HashSet<Coordinate>();
 	}
 
 	@Override
@@ -31,7 +33,7 @@ public class LifeEngineImpl implements LifeEngine {
 
 	@Override
 	public void iterate() {
-		List<Coordinate> nextBoard = new LinkedList<Coordinate>();
+		Set<Coordinate> nextBoard = new HashSet<Coordinate>(board.size());
 		
 		for(Coordinate coord : board){
 			iterateCellAndNeighbors(coord, nextBoard);
@@ -43,6 +45,7 @@ public class LifeEngineImpl implements LifeEngine {
 	
 	@Override
 	public void initializeRandom(int maxX, int maxY){
+		board = new HashSet<Coordinate>(maxX*maxY*3);
 		Random rand = new Random(new Date().getTime());
 		for(int x = 0; x <= maxX; x++){
 			for(int y = 0; y <= maxY; y++){
@@ -75,7 +78,7 @@ public class LifeEngineImpl implements LifeEngine {
 	}
 
 	private void iterateCellAndNeighbors(Coordinate coord,
-			List<Coordinate> nextBoard) {
+			Set<Coordinate> nextBoard) {
 		int x = coord.getX();
 		int y = coord.getY();
 		

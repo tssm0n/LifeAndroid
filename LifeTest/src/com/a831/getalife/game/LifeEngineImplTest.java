@@ -1,5 +1,7 @@
 package com.a831.getalife.game;
 
+import java.util.Date;
+
 import android.test.AndroidTestCase;
 
 public class LifeEngineImplTest extends AndroidTestCase {
@@ -109,4 +111,5 @@ public class LifeEngineImplTest extends AndroidTestCase {
 		assertTrue(engine.isCellAlive(3,2));
 		
 	}
+
 }
