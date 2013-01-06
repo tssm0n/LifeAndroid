@@ -14,8 +14,10 @@ import com.a831.getalife.game.LifeEngineImpl;
 
 public class BoardView extends View {
 
-	private static final int CELL_PIXEL_SIZE = 20;
+	private static final int DEFAULT_CELL_PIXEL_SIZE = 20;
+	private static final int ZOOM_SIZE = 3;
 	private static final long ITERATION_TIME = 1500;
+	private static final float BOARD_INITIAL_SIZE_MODIFIER = 1.3F;
 	
 	private Paint paint;
 	private RectF rect;
@@ -25,6 +27,8 @@ public class BoardView extends View {
 
     private boolean boardInitialized = false;
     private boolean enabled = true;
+    
+    private int cellPixelSize = DEFAULT_CELL_PIXEL_SIZE;
     
 	public BoardView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
@@ -45,14 +49,17 @@ public class BoardView extends View {
 	protected void onDraw(Canvas canvas) {
 		if(!boardInitialized){
 			boardInitialized = true;
-			engine.initializeRandom(canvas.getWidth()/CELL_PIXEL_SIZE, canvas.getHeight()/CELL_PIXEL_SIZE);
+			engine.initializeRandom((int)(canvas.getWidth()/(cellPixelSize/BOARD_INITIAL_SIZE_MODIFIER)), 
+					(int)(canvas.getHeight()/(cellPixelSize/BOARD_INITIAL_SIZE_MODIFIER)));
 		}
 		drawBoard(canvas);
 	}
+	
+	
 
 	private void drawBoard(Canvas canvas) {
-		for(int x = 0; x < (canvas.getWidth()/CELL_PIXEL_SIZE); x++){
-			for(int y = 0; y < (canvas.getHeight()/CELL_PIXEL_SIZE); y++){
+		for(int x = 0; x < (canvas.getWidth()/cellPixelSize); x++){
+			for(int y = 0; y < (canvas.getHeight()/cellPixelSize); y++){
 				if(engine.isCellAlive(x, y)){
 					drawCell(canvas, x, y);
 				}
@@ -61,8 +68,8 @@ public class BoardView extends View {
 	}
 	
 	private void drawCell(Canvas canvas, int x, int y) {
-		rect.set(x*CELL_PIXEL_SIZE, y*CELL_PIXEL_SIZE, 
-				(x+1)*CELL_PIXEL_SIZE, (y+1)*CELL_PIXEL_SIZE);
+		rect.set(x*cellPixelSize, y*cellPixelSize, 
+				(x+1)*cellPixelSize, (y+1)*cellPixelSize);
 		canvas.drawRect(rect, paint);
 	}
 
@@ -89,6 +96,19 @@ public class BoardView extends View {
 
 	public boolean isEnabled() {
 		return enabled;
+	}
+	
+	public void zoom(boolean in){
+		if(in){
+			cellPixelSize += ZOOM_SIZE;
+		} else {
+			cellPixelSize -= ZOOM_SIZE;
+			if(cellPixelSize < 1){
+				cellPixelSize = 1;
+			}
+		}
+		
+		invalidate();
 	}
 
 

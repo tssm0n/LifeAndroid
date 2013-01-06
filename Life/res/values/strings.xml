@@ -3,5 +3,7 @@
 
     <string name="hello">Hello World, LifeActivity!</string>
     <string name="app_name">Life</string>
+    <string name="zoomin">Zoom In</string>
+    <string name="zoomout">Zoom Out</string>
 
 </resources>

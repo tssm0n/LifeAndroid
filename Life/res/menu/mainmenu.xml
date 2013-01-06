@@ -1,0 +1,5 @@
+
+    <menu xmlns:android="http://schemas.android.com/apk/res/android">
+        <item android:id="@+id/zoomInItem" android:title="@string/zoomin"></item>
+        <item android:id="@+id/zoomOutItem" android:title="@string/zoomout"></item>
+    </menu>
